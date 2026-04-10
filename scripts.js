@@ -69,7 +69,7 @@ calculator.addEventListener("click", (event) => {
                     display.textContent += ".";
                 }
                 break;
-            case "DEL":
+            case "Delete":
                 display.textContent = display.textContent.slice(0, -1);
                 break;
             default:
@@ -111,7 +111,7 @@ document.addEventListener("keydown", (event) => {
             newDigitClearsDisplay = false;
         }
         display.textContent += event.key;
-    } else if (["+", "-", "*", "/", ".", "=", "Backspace", "Escape"].includes(event.key)) {
+    } else if (["+", "-", "*", "/", ".", "=", "Enter", "Backspace", "Escape"].includes(event.key)) {
         switch (event.key) {
             case "Escape":
                 resetCalculator();
@@ -145,7 +145,7 @@ document.addEventListener("keydown", (event) => {
                     secondNumber = null;
                 }
 
-                if (event.key !== "=") {
+                if (!["=", "Enter"].includes(event.key)) {
                     operator = event.key;
                 } else {
                     operator = null;
