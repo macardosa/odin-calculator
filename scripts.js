@@ -103,3 +103,55 @@ calculator.addEventListener("click", (event) => {
         }
     }
 });
+
+document.addEventListener("keydown", (event) => {
+    if (/[0-9]/.test(event.key)) { // is digit
+        if (newDigitClearsDisplay) {
+            display.textContent = "";
+            newDigitClearsDisplay = false;
+        }
+        display.textContent += event.key;
+    } else if (["+", "-", "*", "/", ".", "=", "Backspace", "Escape"].includes(event.key)) {
+        switch (event.key) {
+            case "Escape":
+                resetCalculator();
+                break;
+            case ".":
+                if (display.textContent !== "" && !display.textContent.includes(".")) {
+                    display.textContent += ".";
+                }
+                break;
+            case "Backspace":
+                display.textContent = display.textContent.slice(0, -1);
+                break;
+            default:
+                if (!firstNumber) {
+                    firstNumber = Number(display.textContent);
+                } else if (!secondNumber && newDigitClearsDisplay === false) {
+                    secondNumber = Number(display.textContent);
+                }
+
+                newDigitClearsDisplay = true;
+
+                if (operator !== null && secondNumber !== null && firstNumber !== null) {
+                    let result = operate(operator, firstNumber, secondNumber);
+                    if (result === undefined) {
+                        showErrorMessage(`Error: ${firstNumber} ${operator} ${secondNumber} is undefined.`);
+                        resetCalculator();
+                        break;
+                    }
+                    firstNumber = result;
+                    display.textContent = result;
+                    secondNumber = null;
+                }
+
+                if (event.key !== "=") {
+                    operator = event.key;
+                } else {
+                    operator = null;
+                    firstNumber = null;
+                    secondNumber = null;
+                }
+        }
+    }
+});
