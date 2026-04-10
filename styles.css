@@ -12,6 +12,7 @@ body {
     align-items: center;
     margin-top: 50px;
     flex-direction: column;
+    height: 100vh;
 }
 
 .calculator {
@@ -68,4 +69,15 @@ body {
     border-radius: 8px;
     font-size: 1.4rem;  
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.long-key {
+    aspect-ratio: 2.5 / 1;
+    grid-column: span 2;
+    border-radius: 5%;
+}
+
+footer {
+    margin-top: auto;
+    padding: 20px;
 }

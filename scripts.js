@@ -69,6 +69,9 @@ calculator.addEventListener("click", (event) => {
                     display.textContent += ".";
                 }
                 break;
+            case "DEL":
+                display.textContent = display.textContent.slice(0, -1);
+                break;
             default:
                 if (!firstNumber) {
                     firstNumber = Number(display.textContent);
