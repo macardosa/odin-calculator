@@ -23,7 +23,7 @@ function operate(operator, a, b) {
         case "*":
             return multiply(a, b);
         case "/":
-            return divide(a, b);
+            return (b === 0) ? undefined : divide(a, b);
     }
 }
 
@@ -35,6 +35,23 @@ let newDigitClearsDisplay = false;
 let calculator = document.querySelector(".calculator");
 let display = document.querySelector(".display");
 
+function showErrorMessage(message) {
+    const errors = document.querySelector(".errors");
+    errors.textContent = message;
+    errors.style.display = "block";
+
+    setTimeout(() => {
+        errors.style.display = "none";
+    }, 2000); // clear error message after 2000 ms
+}
+
+function resetCalculator() {
+    display.textContent = "";
+    firstNumber = null;
+    secondNumber = null;
+    operator = null;
+}
+
 calculator.addEventListener("click", (event) => {
     if (event.target.classList.contains("digit")) {
         if (newDigitClearsDisplay) {
@@ -45,10 +62,12 @@ calculator.addEventListener("click", (event) => {
     } else if (event.target.classList.contains("operator")) {
         switch (event.target.textContent) {
             case "Clear":
-                display.textContent = "";
-                firstNumber = null;
-                secondNumber = null;
-                operator = null;
+                resetCalculator();
+                break;
+            case ".":
+                if (display.textContent !== "" && !display.textContent.includes(".")) {
+                    display.textContent += ".";
+                }
                 break;
             default:
                 if (!firstNumber) {
@@ -59,10 +78,15 @@ calculator.addEventListener("click", (event) => {
 
                 newDigitClearsDisplay = true;
 
-                if (operator && secondNumber && firstNumber) {
-                    console.log(operator, firstNumber, secondNumber);
-                    firstNumber = operate(operator, firstNumber, secondNumber);
-                    display.textContent = firstNumber;
+                if (operator !== null && secondNumber !== null && firstNumber !== null) {
+                    let result = operate(operator, firstNumber, secondNumber);
+                    if (result === undefined) {
+                        showErrorMessage(`Error: ${firstNumber} ${operator} ${secondNumber} is undefined.`);
+                        resetCalculator();
+                        break;
+                    }
+                    firstNumber = result;
+                    display.textContent = result;
                     secondNumber = null;
                 }
 
@@ -70,6 +94,8 @@ calculator.addEventListener("click", (event) => {
                     operator = event.target.textContent;
                 } else {
                     operator = null;
+                    firstNumber = null;
+                    secondNumber = null;
                 }
         }
     }

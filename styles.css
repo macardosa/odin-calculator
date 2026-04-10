@@ -11,6 +11,7 @@ body {
     justify-content: center;
     align-items: center;
     margin-top: 50px;
+    flex-direction: column;
 }
 
 .calculator {
@@ -56,4 +57,15 @@ body {
 .digit:hover,
 .operator:hover {
     transform: scale(1.1);
+}
+
+.errors {
+    display: none;
+    margin-top: 40px;
+    background-color: #fee2e2;
+    color: #7f1d1d;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 1.4rem;  
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
